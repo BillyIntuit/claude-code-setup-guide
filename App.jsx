@@ -52,7 +52,7 @@ const SNIPPETS = {
 const bodyStyle = { fontFamily: '"Geneva","Charcoal",monospace', fontSize: 13, lineHeight: 1.7, color: '#000', marginTop: 6 };
 const linkStyle = { fontFamily: '"Geneva","Charcoal",monospace', fontSize: 13, color: '#000080', textDecoration: 'underline' };
 const h2Style = { fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 15, marginBottom: 10, marginTop: 16 };
-const inlineCode = { fontFamily: 'monospace', background: '#e8e8e8', padding: '1px 5px', border: '1px solid #bbb', fontSize: 13 };
+const inlineCode = { fontFamily: 'monospace', background: '#fff', padding: '1px 5px', border: '1px solid #000', fontSize: 13 };
 
 function HappyMacIcon() {
   return (
