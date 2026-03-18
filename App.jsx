@@ -253,10 +253,26 @@ function CodeSnippet({ code, label }) {
   const [copied, setCopied] = React.useState(false);
 
   function handleCopy() {
-    navigator.clipboard.writeText(code).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    const succeed = () => { setCopied(true); setTimeout(() => setCopied(false), 2000); };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(code).then(succeed).catch(() => {
+        const el = document.createElement('textarea');
+        el.value = code;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        succeed();
+      });
+    } else {
+      const el = document.createElement('textarea');
+      el.value = code;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      succeed();
+    }
   }
 
   return (
@@ -442,10 +458,13 @@ export default function App() {
   const [showSplash, setShowSplash] = React.useState(true);
   const [currentStep, setCurrentStep] = React.useState(0);
 
-  const sectionRefs = [
-    React.useRef(null), React.useRef(null), React.useRef(null),
-    React.useRef(null), React.useRef(null), React.useRef(null),
-  ];
+  const ref0 = React.useRef(null);
+  const ref1 = React.useRef(null);
+  const ref2 = React.useRef(null);
+  const ref3 = React.useRef(null);
+  const ref4 = React.useRef(null);
+  const ref5 = React.useRef(null);
+  const sectionRefs = [ref0, ref1, ref2, ref3, ref4, ref5];
 
   React.useEffect(() => {
     const t = setTimeout(() => setShowSplash(false), 2200);
