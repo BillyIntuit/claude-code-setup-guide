@@ -71,6 +71,7 @@ body {
 /* .chat-input focus outline handled by *:focus-visible rule */
 .chat-code { display: block; background: #000; color: #fff; font-family: monospace; font-size: 12px; padding: 10px 12px; margin: 6px 0; white-space: pre-wrap; word-break: break-all; border: 1px solid #000; }
 *:focus-visible { outline: 2px solid #000080; outline-offset: 2px; }
+.menu-help-btn:focus-visible { outline: none; }
 .visually-hidden {
   position: absolute;
   width: 1px; height: 1px;
@@ -1078,7 +1079,7 @@ function ChatMessage({ msg }) {
       alignItems: isUser ? 'flex-end' : 'flex-start',
       marginBottom: 12,
     }}>
-      <div style={{ fontSize: 10, fontFamily: 'monospace', marginBottom: 3, color: '#666' }}>
+      <div style={{ fontSize: 12, fontFamily: 'monospace', marginBottom: 3, color: '#000' }}>
         {isUser ? 'You' : '● Claude'}
       </div>
       <div style={{
@@ -1088,7 +1089,7 @@ function ChatMessage({ msg }) {
         border: '1.5px solid #000',
         padding: '7px 10px',
         fontFamily: '"Geneva","Charcoal",monospace',
-        fontSize: 12,
+        fontSize: 14,
         lineHeight: 1.55,
       }}>
         {isUser ? msg.content : (parts || []).map((p, i) =>
@@ -1130,7 +1131,7 @@ function CodeBlock({ code, lang }) {
 function ThinkingDots() {
   return (
     <div className="chat-msg" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginBottom: 12 }}>
-      <div style={{ fontSize: 10, fontFamily: 'monospace', marginBottom: 3, color: '#666' }}>● Claude</div>
+      <div style={{ fontSize: 12, fontFamily: 'monospace', marginBottom: 3, color: '#000' }}>● Claude</div>
       <div aria-label="Loading response" role="status" style={{ border: '1.5px solid #000', padding: '10px 14px', background: '#fff' }}>
         <span className="think-dot" aria-hidden="true" style={{ animationDelay: '0s' }} />
         <span className="think-dot" aria-hidden="true" style={{ animationDelay: '0.2s' }} />
@@ -1158,6 +1159,8 @@ function ChatPanel({ closing, onClose }) {
   const [stepIndex, setStepIndex] = React.useState(0);
   const bottomRef = React.useRef(null);
   const inputRef = React.useRef(null);
+  const panelRef = React.useRef(null);
+  useFocusTrap(panelRef, true);
 
   React.useEffect(() => {
     if (bottomRef.current) bottomRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -1191,6 +1194,7 @@ function ChatPanel({ closing, onClose }) {
 
   return (
     <div
+      ref={panelRef}
       role="dialog"
       aria-modal="true"
       aria-label="Help Desk chat"
@@ -1354,6 +1358,10 @@ function MenuBar({ currentStep, sectionRefs }) {
   const [results, setResults] = React.useState([]);
   const [activeResult, setActiveResult] = React.useState(0);
   const inputRef = React.useRef(null);
+  const searchRef = React.useRef(null);
+  const aboutRef = React.useRef(null);
+  useFocusTrap(searchRef, searchOpen);
+  useFocusTrap(aboutRef, aboutOpen);
 
   // Live clock
   const [time, setTime] = React.useState(() => {
@@ -1461,7 +1469,7 @@ function MenuBar({ currentStep, sectionRefs }) {
             display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 120,
             background: 'rgba(255,255,255,0.88)',
           }} onClick={e => { if (e.target === e.currentTarget) { setSearchOpen(false); setQuery(''); setResults([]); }}}>
-          <div style={{ width: '90%', maxWidth: 520, border: '2px solid #000', background: '#fff' }}>
+          <div ref={searchRef} style={{ width: '90%', maxWidth: 520, border: '2px solid #000', background: '#fff' }}>
             {/* Search bar */}
             <div style={{ display: 'flex', alignItems: 'center', borderBottom: results.length ? '2px solid #000' : 'none', padding: '8px 12px', gap: 10 }}>
               <SearchIcon aria-hidden="true" />
@@ -1536,6 +1544,7 @@ function MenuBar({ currentStep, sectionRefs }) {
             <div
               role="dialog"
               aria-modal="true"
+              ref={aboutRef}
               aria-label="About This Guide"
               onClick={e => e.stopPropagation()}
               className="about-modal-inner"
@@ -1781,7 +1790,7 @@ function MenuBar({ currentStep, sectionRefs }) {
           <button
             onClick={() => { setMenuOpen(false); setChatOpen(true); }}
             className="menu-help-btn"
-            style={{ background: 'none', border: '1.5px solid #000', cursor: 'pointer', padding: '4px 8px', minHeight: 44, fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 13, display: 'flex', alignItems: 'center', gap: 5 }}
+            style={{ background: 'none', border: '1.5px solid #000', cursor: 'pointer', padding: '4px 8px', minHeight: 44, fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 13, display: 'flex', alignItems: 'center', gap: 5, WebkitAppearance: 'none', appearance: 'none', lineHeight: 1 }}
           >
             <span style={{ fontSize: 11 }}>?</span> Help
           </button>
@@ -2066,6 +2075,33 @@ function DoneSection({ sectionRef }) {
       </MacWindow>
     </div>
   );
+}
+
+// ─── Focus trap hook ─────────────────────────────────────────────────────────
+
+function useFocusTrap(ref, active) {
+  React.useEffect(() => {
+    if (!active || !ref.current) return;
+    const el = ref.current;
+    const FOCUSABLE = 'a[href],button:not([disabled]),textarea:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
+    // Focus the first focusable element
+    const first = el.querySelectorAll(FOCUSABLE)[0];
+    if (first) first.focus();
+    function onKeyDown(e) {
+      if (e.key !== 'Tab') return;
+      const focusable = Array.from(el.querySelectorAll(FOCUSABLE)).filter(n => !n.closest('[aria-hidden="true"]'));
+      if (!focusable.length) return;
+      const firstEl = focusable[0];
+      const lastEl = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === firstEl) { e.preventDefault(); lastEl.focus(); }
+      } else {
+        if (document.activeElement === lastEl) { e.preventDefault(); firstEl.focus(); }
+      }
+    }
+    el.addEventListener('keydown', onKeyDown);
+    return () => el.removeEventListener('keydown', onKeyDown);
+  }, [active]);
 }
 
 // ─── App ─────────────────────────────────────────────────────────────────────
