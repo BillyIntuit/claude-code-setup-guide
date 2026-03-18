@@ -68,7 +68,7 @@ body {
 .chat-panel.closing { animation: chatSlideOut 0.22s ease-in forwards; }
 .chat-msg { animation: msgPop 0.2s ease-out both; }
 .think-dot { display: inline-block; width: 6px; height: 6px; background: #000; margin: 0 2px; animation: thinkDot 1.2s ease-in-out infinite; }
-.chat-input:focus { outline: none; }
+/* .chat-input focus outline handled by *:focus-visible rule */
 .chat-code { display: block; background: #000; color: #fff; font-family: monospace; font-size: 12px; padding: 10px 12px; margin: 6px 0; white-space: pre-wrap; word-break: break-all; border: 1px solid #000; }
 *:focus-visible { outline: 2px solid #000080; outline-offset: 2px; }
 .visually-hidden {
@@ -114,7 +114,64 @@ body {
   margin-left: 1px;
   animation: blink 0.7s step-end infinite;
 }
+
+/* ── Responsive styles ─────────────────────────────────── */
+
+/* Minimum tap target for all buttons */
+button {
+  min-height: 32px;
+}
+
+/* Mobile: < 600px */
+@media (max-width: 599px) {
+  /* Menu bar: shrink font, hide status icons */
+  .menu-status-icons { display: none !important; }
+  .menu-clock { font-size: 11px !important; }
+  .menu-help-btn { font-size: 11px !important; padding: 2px 6px !important; }
+
+  /* Chat panel: full width */
+  .chat-panel {
+    width: 100vw !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  /* Main content padding */
+  .main-content {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* MacWindow content padding */
+  .mac-window-content {
+    padding: 14px 12px !important;
+  }
+
+  /* Code snippets: reduce right-padding so copy btn doesn't overlap */
+  .code-snippet-pre {
+    padding-right: 60px !important;
+    font-size: 13px !important;
+  }
+
+  /* Heading sizes */
+  .section-h2 { font-size: 13px !important; }
+}
+
+/* Tablet and up: 600px+ */
+@media (min-width: 600px) {
+  .chat-panel { width: 360px !important; }
+}
+
+/* Menu bar apple + search buttons: ensure 44x44 tap target */
+.menu-icon-btn {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 `;
+
 
 const SNIPPETS = {
   macInstall: `curl -fsSL https://cli.anthropic.com/install.sh | sh`,
@@ -132,10 +189,10 @@ const SNIPPETS = {
 // because they're already intersecting before the observer attaches).
 const SplashDoneContext = React.createContext(false);
 
-const bodyStyle = { fontFamily: '"Geneva","Charcoal",monospace', fontSize: 13, lineHeight: 1.7, color: '#000', marginTop: 6 };
-const linkStyle = { fontFamily: '"Geneva","Charcoal",monospace', fontSize: 13, color: '#000080', textDecoration: 'underline' };
+const bodyStyle = { fontFamily: '"Geneva","Charcoal",monospace', fontSize: 14, lineHeight: 1.7, color: '#000', marginTop: 6 };
+const linkStyle = { fontFamily: '"Geneva","Charcoal",monospace', fontSize: 14, color: '#000080', textDecoration: 'underline' };
 const h2Style = { fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 15, marginBottom: 10, marginTop: 20 };
-const inlineCode = { fontFamily: 'monospace', background: '#fff', padding: '1px 5px', border: '1px solid #000', fontSize: 13 };
+const inlineCode = { fontFamily: 'monospace', background: '#fff', padding: '1px 5px', border: '1px solid #000', fontSize: 14 };
 
 // ─── TypeIn component ────────────────────────────────────────────────────────
 // Types in plain text on scroll-enter, then reveals the real children (which
@@ -1167,8 +1224,8 @@ function ChatPanel({ closing, onClose }) {
               <button key={i} onClick={() => send(s)} style={{
                 display: 'block', width: '100%', textAlign: 'left', marginBottom: 5,
                 background: 'none', border: '1px solid #000', cursor: 'pointer',
-                fontFamily: '"Geneva","Charcoal",monospace', fontSize: 11,
-                padding: '5px 8px', color: '#000',
+                fontFamily: '"Geneva","Charcoal",monospace', fontSize: 12,
+                padding: '8px 8px', minHeight: 44, color: '#000',
               }}>{s}</button>
             ))}
           </div>
@@ -1675,7 +1732,7 @@ function MenuBar({ currentStep, sectionRefs }) {
 
         {/* Left: logo + dropdown */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, position: 'relative' }}>
-          <button onClick={() => setAboutOpen(true)} aria-label="About this guide" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '10px', display: 'flex', alignItems: 'center' }}>
+          <button onClick={() => setAboutOpen(true)} aria-label="About this guide" className="menu-icon-btn" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>
             <AppleIcon aria-hidden="true" />
           </button>
           <button
@@ -1720,20 +1777,21 @@ function MenuBar({ currentStep, sectionRefs }) {
         </div>
 
         {/* Right: status icons + search + clock */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <button
             onClick={() => { setMenuOpen(false); setChatOpen(true); }}
-            style={{ background: 'none', border: '1.5px solid #000', cursor: 'pointer', padding: '1px 8px', fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 13, display: 'flex', alignItems: 'center', gap: 5 }}
+            className="menu-help-btn"
+            style={{ background: 'none', border: '1.5px solid #000', cursor: 'pointer', padding: '4px 8px', minHeight: 44, fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 13, display: 'flex', alignItems: 'center', gap: 5 }}
           >
             <span style={{ fontSize: 11 }}>?</span> Help
           </button>
-          <button onClick={openSearch} aria-label="Search this guide" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '10px', display: 'flex', alignItems: 'center' }}>
+          <button onClick={openSearch} aria-label="Search this guide" className="menu-icon-btn" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>
             <SearchIcon aria-hidden="true" />
           </button>
-          <span aria-hidden="true"><BatteryIcon /></span>
-          <span aria-hidden="true"><WifiIcon /></span>
-          <span aria-hidden="true"><BluetoothIcon /></span>
-          <span style={{ fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 13, marginLeft: 4 }}>
+          <span aria-hidden="true" className="menu-status-icons"><BatteryIcon /></span>
+          <span aria-hidden="true" className="menu-status-icons"><WifiIcon /></span>
+          <span aria-hidden="true" className="menu-status-icons"><BluetoothIcon /></span>
+          <span className="menu-clock" style={{ fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 13, marginLeft: 4 }}>
             {time}
           </span>
         </div>
@@ -1789,7 +1847,7 @@ function MacWindow({ title, icon, hero, children, sectionIndex = 0 }) {
       {/* Hero image */}
       {hero}
       {/* Content */}
-      <div style={{ padding: '20px 24px' }}>{children}</div>
+      <div className="mac-window-content" style={{ padding: '20px 24px' }}>{children}</div>
     </div>
   );
 }
@@ -1830,7 +1888,7 @@ function CodeSnippet({ code, label }) {
         </div>
       )}
       <div style={{ position: 'relative' }}>
-        <pre style={{ fontFamily: 'monospace', fontSize: 14, padding: '12px 16px', paddingRight: 80, whiteSpace: 'pre-wrap', overflowX: 'auto', margin: 0, lineHeight: 1.5 }}>
+        <pre className="code-snippet-pre" style={{ fontFamily: 'monospace', fontSize: 14, padding: '12px 16px', paddingRight: 80, whiteSpace: 'pre-wrap', overflowX: 'auto', margin: 0, lineHeight: 1.5 }}>
           {code}
         </pre>
         <button
@@ -2060,7 +2118,7 @@ function App() {
       <Splash visible={showSplash} aria-hidden="true" />
       <MenuBar currentStep={currentStep} sectionRefs={sectionRefs} />
       <div style={{ background: 'transparent', minHeight: '100vh' }}>
-        <main id="main-content" style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px', paddingTop: 68 }}>
+        <main id="main-content" className="main-content" style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px', paddingTop: 68 }}>
           <h1 className="visually-hidden">Claude Code Setup Guide</h1>
           <PrerequisitesSection sectionRef={sectionRefs[0]} />
           <InstallSection sectionRef={sectionRefs[1]} />
