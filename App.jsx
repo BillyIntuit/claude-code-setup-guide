@@ -70,6 +70,29 @@ body {
 .think-dot { display: inline-block; width: 6px; height: 6px; background: #000; margin: 0 2px; animation: thinkDot 1.2s ease-in-out infinite; }
 .chat-input:focus { outline: none; }
 .chat-code { display: block; background: #000; color: #fff; font-family: monospace; font-size: 12px; padding: 10px 12px; margin: 6px 0; white-space: pre-wrap; word-break: break-all; border: 1px solid #000; }
+*:focus-visible { outline: 2px solid #000080; outline-offset: 2px; }
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: absolute;
+  top: -9999px; left: -9999px;
+  background: #000; color: #fff;
+  padding: 8px 16px;
+  font-family: "Chicago","ChicagoFLF",monospace;
+  font-size: 14px;
+  z-index: 10000;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 4px; left: 4px;
+}
 @keyframes doneDance {
   0%,100% { transform: translateY(0) rotate(0deg); }
   20% { transform: translateY(-14px) rotate(-4deg); }
@@ -198,7 +221,7 @@ function heroBg(i) { return `${HERO_COLORS[i]} ${HERO_DITHER}`; }
 
 function HeroChecklist() {
   return (
-    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(0) }}>
+    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(0) }}>
       {/* Dithered background */}
       <defs>
         <pattern id="dither" x="0" y="0" width="2" height="2" patternUnits="userSpaceOnUse">
@@ -256,7 +279,7 @@ function HeroChecklist() {
 // Section 2: Terminal window with install command being typed
 function HeroTerminal() {
   return (
-    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(1) }}>
+    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(1) }}>
       <defs>
         <pattern id="dither2" x="0" y="0" width="2" height="2" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="1" height="1" fill="#000"/>
@@ -289,7 +312,7 @@ function HeroTerminal() {
 // Section 3: Cursor IDE window with Claude panel open
 function HeroCursor() {
   return (
-    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(2) }}>
+    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(2) }}>
       <defs>
         <pattern id="dither3" x="0" y="0" width="2" height="2" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="1" height="1" fill="#000"/>
@@ -344,7 +367,7 @@ function HeroCursor() {
 // Section 4: Figma frame being "read" by Claude — design on left, code on right
 function HeroFigma() {
   return (
-    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(3) }}>
+    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(3) }}>
       <defs>
         <pattern id="dither4" x="0" y="0" width="2" height="2" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="1" height="1" fill="#000"/>
@@ -399,7 +422,7 @@ function HeroFigma() {
 // Section 5: Classic Mac alert/warning dialog — danger zone
 function HeroYOLO() {
   return (
-    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(4) }}>
+    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(4) }}>
       <defs>
         <pattern id="dither5" x="0" y="0" width="2" height="2" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="1" height="1" fill="#000"/>
@@ -496,7 +519,7 @@ function HeroDone() {
     {x:555, y:170, w:8,  h:8,  cx:'-4px',  cr:'60deg',  d:'0.50s'},
   ];
   return (
-    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(5) }}>
+    <svg width="100%" height="260" viewBox="0 0 720 180" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ display: 'block', border: '2px solid #000', borderLeft: 'none', borderRight: 'none', background: heroBg(5) }}>
       <defs>
         <pattern id="dither6" x="0" y="0" width="2" height="2" patternUnits="userSpaceOnUse">
           <rect x="0" y="0" width="1" height="1" fill="#000"/>
@@ -556,7 +579,7 @@ function HeroDone() {
 
 function HappyMacIcon() {
   return (
-    <svg width="64" height="64" viewBox="0 0 64 64" style={{ imageRendering: 'pixelated' }} xmlns="http://www.w3.org/2000/svg">
+    <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true" style={{ imageRendering: 'pixelated' }} xmlns="http://www.w3.org/2000/svg">
       <rect x="12" y="4" width="40" height="52" fill="#fff" stroke="#000" strokeWidth="2"/>
       <rect x="16" y="8" width="32" height="28" fill="#fff" stroke="#000" strokeWidth="1"/>
       <rect x="21" y="14" width="4" height="4" fill="#000"/>
@@ -575,7 +598,7 @@ function HappyMacIcon() {
 // Apple with TWO bites taken out — bottom-right and bottom-left
 function AppleIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 14 16" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <svg width="16" height="16" viewBox="0 0 14 16" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       {/* Stem */}
       <rect x="6" y="0" width="2" height="2" fill="#000"/>
       <rect x="8" y="1" width="2" height="1" fill="#000"/>
@@ -594,7 +617,7 @@ function AppleIcon() {
 
 function ChecklistIcon({ size = 32 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <rect x="2" y="2" width="28" height="28" fill="#fff" stroke="#000" strokeWidth="2"/>
       <rect x="4" y="0" width="10" height="4" fill="#000"/>
       <rect x="5" y="7" width="5" height="5" fill="#000"/>
@@ -611,7 +634,7 @@ function ChecklistIcon({ size = 32 }) {
 
 function FloppyDiskIcon({ size = 32 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <rect x="2" y="2" width="28" height="28" fill="#fff" stroke="#000" strokeWidth="2"/>
       <rect x="6" y="2" width="20" height="10" fill="#000"/>
       <rect x="8" y="4" width="8" height="6" fill="#fff"/>
@@ -625,7 +648,7 @@ function FloppyDiskIcon({ size = 32 }) {
 
 function PlugIcon({ size = 32 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <rect x="12" y="2" width="3" height="10" fill="#000"/>
       <rect x="17" y="2" width="3" height="10" fill="#000"/>
       <rect x="10" y="10" width="12" height="14" fill="#fff" stroke="#000" strokeWidth="2"/>
@@ -637,7 +660,7 @@ function PlugIcon({ size = 32 }) {
 
 function PaletteIcon({ size = 32 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <polygon points="16,2 26,4 30,10 30,20 26,26 18,30 10,30 4,26 2,18 2,10 6,4" fill="#fff" stroke="#000" strokeWidth="2"/>
       <rect x="6" y="14" width="5" height="5" fill="#000"/>
       <rect x="7" y="15" width="3" height="3" fill="#fff"/>
@@ -652,7 +675,7 @@ function PaletteIcon({ size = 32 }) {
 
 function SkullIcon({ size = 32 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <rect x="6" y="4" width="20" height="18" fill="#fff" stroke="#000" strokeWidth="2"/>
       <rect x="9" y="8" width="5" height="5" fill="#000"/>
       <rect x="18" y="8" width="5" height="5" fill="#000"/>
@@ -669,7 +692,7 @@ function SkullIcon({ size = 32 }) {
 
 function ThumbsUpIcon({ size = 32 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <svg width={size} height={size} viewBox="0 0 32 32" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <rect x="14" y="4" width="8" height="14" fill="#fff" stroke="#000" strokeWidth="2"/>
       <rect x="14" y="10" width="8" height="2" fill="#000"/>
       <rect x="8" y="14" width="18" height="10" fill="#fff" stroke="#000" strokeWidth="2"/>
@@ -1037,8 +1060,8 @@ function CodeBlock({ code, lang }) {
   return (
     <div style={{ margin: '6px 0', border: '1.5px solid #fff' }}>
       <div style={{ background: '#333', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '3px 8px' }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#aaa' }}>{lang}</span>
-        <button onClick={doCopy} style={{ background: 'none', border: '1px solid #aaa', color: '#aaa', fontFamily: 'monospace', fontSize: 10, cursor: 'pointer', padding: '1px 6px' }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 10, color: '#ccc' }}>{lang}</span>
+        <button onClick={doCopy} aria-label={copied ? 'Copied to clipboard' : 'Copy code to clipboard'} aria-live="polite" style={{ background: 'none', border: '1px solid #555', color: '#ccc', fontFamily: 'monospace', fontSize: 10, cursor: 'pointer', padding: '1px 6px' }}>
           {copied ? 'Copied!' : 'Copy'}
         </button>
       </div>
@@ -1051,10 +1074,10 @@ function ThinkingDots() {
   return (
     <div className="chat-msg" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginBottom: 12 }}>
       <div style={{ fontSize: 10, fontFamily: 'monospace', marginBottom: 3, color: '#666' }}>● Claude</div>
-      <div style={{ border: '1.5px solid #000', padding: '10px 14px', background: '#fff' }}>
-        <span className="think-dot" style={{ animationDelay: '0s' }} />
-        <span className="think-dot" style={{ animationDelay: '0.2s' }} />
-        <span className="think-dot" style={{ animationDelay: '0.4s' }} />
+      <div aria-label="Loading response" role="status" style={{ border: '1.5px solid #000', padding: '10px 14px', background: '#fff' }}>
+        <span className="think-dot" aria-hidden="true" style={{ animationDelay: '0s' }} />
+        <span className="think-dot" aria-hidden="true" style={{ animationDelay: '0.2s' }} />
+        <span className="think-dot" aria-hidden="true" style={{ animationDelay: '0.4s' }} />
       </div>
     </div>
   );
@@ -1110,18 +1133,22 @@ function ChatPanel({ closing, onClose }) {
   const showSuggestions = messages.length <= 1;
 
   return (
-    <div style={{
-      position: 'fixed', top: 0, right: 0, bottom: 0, width: 360,
-      zIndex: 400, display: 'flex', flexDirection: 'column',
-      border: '2px solid #000', borderTop: 'none', borderRight: 'none',
-      background: '#fff',
-    }} className={`chat-panel${closing ? ' closing' : ''}`}>
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Help Desk chat"
+      style={{
+        position: 'fixed', top: 0, right: 0, bottom: 0, width: 360,
+        zIndex: 400, display: 'flex', flexDirection: 'column',
+        border: '2px solid #000', borderTop: 'none', borderRight: 'none',
+        background: '#fff',
+      }} className={`chat-panel${closing ? ' closing' : ''}`}>
       {/* Title bar */}
       <div style={{
         background: '#000', height: 28, display: 'flex', alignItems: 'center',
         padding: '0 8px', gap: 8, flexShrink: 0,
       }}>
-        <div onClick={onClose} style={{ width: 13, height: 13, border: '1.5px solid #fff', background: '#fff', cursor: 'pointer', flexShrink: 0 }} />
+        <button onClick={onClose} aria-label="Close Help Desk" style={{ width: 13, height: 13, border: '1.5px solid #fff', background: '#fff', cursor: 'pointer', flexShrink: 0, padding: 0 }} />
         <div style={{ flex: 1, height: 6, backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)' }} />
         <span style={{ fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 12, color: '#fff', whiteSpace: 'nowrap' }}>
           ● Help Desk
@@ -1130,12 +1157,12 @@ function ChatPanel({ closing, onClose }) {
       </div>
 
       {/* Messages */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '14px 12px', display: 'flex', flexDirection: 'column' }}>
+      <div role="log" aria-live="polite" aria-label="Chat messages" style={{ flex: 1, overflowY: 'auto', padding: '14px 12px', display: 'flex', flexDirection: 'column' }}>
         {messages.map((m, i) => <ChatMessage key={i} msg={m} />)}
         {thinking && <ThinkingDots />}
         {showSuggestions && !thinking && (
           <div style={{ marginTop: 8 }}>
-            <div style={{ fontFamily: 'monospace', fontSize: 10, color: '#888', marginBottom: 6 }}>Common questions:</div>
+            <div style={{ fontFamily: 'monospace', fontSize: 10, color: '#000', marginBottom: 6 }}>Common questions:</div>
             {SUGGESTED.map((s, i) => (
               <button key={i} onClick={() => send(s)} style={{
                 display: 'block', width: '100%', textAlign: 'left', marginBottom: 5,
@@ -1157,6 +1184,7 @@ function ChatPanel({ closing, onClose }) {
           onChange={e => setInput(e.target.value)}
           onKeyDown={onKeyDown}
           placeholder="Ask a question… (Enter to send)"
+          aria-label="Ask a question"
           rows={2}
           className="chat-input"
           style={{
@@ -1168,8 +1196,9 @@ function ChatPanel({ closing, onClose }) {
         <button
           onClick={() => send()}
           disabled={thinking || !input.trim()}
+          aria-label="Send message"
           style={{
-            width: 42, background: thinking ? '#ccc' : '#000', color: '#fff',
+            width: 44, minHeight: 44, background: thinking ? '#ccc' : '#000', color: '#fff',
             border: 'none', borderLeft: '2px solid #000',
             fontFamily: 'monospace', fontSize: 18, cursor: thinking ? 'not-allowed' : 'pointer',
           }}
@@ -1366,21 +1395,26 @@ function MenuBar({ currentStep, sectionRefs }) {
     <>
       {/* Search overlay */}
       {searchOpen && (
-        <div style={{
-          position: 'fixed', inset: 0, zIndex: 500,
-          display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 120,
-          background: 'rgba(255,255,255,0.88)',
-        }} onClick={e => { if (e.target === e.currentTarget) { setSearchOpen(false); setQuery(''); setResults([]); }}}>
-          <div style={{ width: 520, border: '2px solid #000', background: '#fff' }}>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Search this guide"
+          style={{
+            position: 'fixed', inset: 0, zIndex: 500,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 120,
+            background: 'rgba(255,255,255,0.88)',
+          }} onClick={e => { if (e.target === e.currentTarget) { setSearchOpen(false); setQuery(''); setResults([]); }}}>
+          <div style={{ width: '90%', maxWidth: 520, border: '2px solid #000', background: '#fff' }}>
             {/* Search bar */}
             <div style={{ display: 'flex', alignItems: 'center', borderBottom: results.length ? '2px solid #000' : 'none', padding: '8px 12px', gap: 10 }}>
-              <SearchIcon />
+              <SearchIcon aria-hidden="true" />
               <input
                 ref={inputRef}
                 value={query}
                 onChange={e => handleQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Search this guide..."
+                aria-label="Search this guide"
                 style={{
                   flex: 1, border: 'none', outline: 'none',
                   fontFamily: '"Geneva","Charcoal",monospace', fontSize: 15,
@@ -1389,12 +1423,13 @@ function MenuBar({ currentStep, sectionRefs }) {
               />
               {query && (
                 <button onClick={() => { setQuery(''); setResults([]); inputRef.current.focus(); }}
+                  aria-label="Clear search"
                   style={{ border: 'none', background: 'none', cursor: 'pointer', fontFamily: 'monospace', fontSize: 13 }}>✕</button>
               )}
             </div>
             {/* Results */}
             {results.length > 0 && (
-              <div>
+              <div role="listbox" aria-label="Search results" aria-live="polite">
                 {results.map((r, i) => (
                   <button key={i} onClick={() => jumpTo(r.el)}
                     style={{
@@ -1442,13 +1477,16 @@ function MenuBar({ currentStep, sectionRefs }) {
             }}
           >
             <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="About This Guide"
               onClick={e => e.stopPropagation()}
               className="about-modal-inner"
               style={{ width: 340, border: '2px solid #000', background: '#fff' }}
             >
               {/* Title bar */}
               <div style={{ background: '#000', height: 22, display: 'flex', alignItems: 'center', padding: '0 6px', gap: 6 }}>
-                <div onClick={() => setAboutOpen(false)} style={{ width: 12, height: 12, border: '1px solid #fff', background: '#fff', cursor: 'pointer', flexShrink: 0 }} />
+                <button onClick={() => setAboutOpen(false)} aria-label="Close About dialog" style={{ width: 12, height: 12, border: '1px solid #fff', background: '#fff', cursor: 'pointer', flexShrink: 0, padding: 0 }} />
                 <div style={{ flex: 1, height: 6, backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)' }} />
                 <span style={{ fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 12, color: '#fff', whiteSpace: 'nowrap' }}>About This Guide</span>
                 <div style={{ flex: 1, height: 6, backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)' }} />
@@ -1599,7 +1637,7 @@ function MenuBar({ currentStep, sectionRefs }) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   <a href="https://intuit.enterprise.slack.com/user/@vhong2" target="_blank" rel="noopener noreferrer"
                     style={{ ...linkStyle, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <svg width="14" height="14" viewBox="0 0 14 14" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="14" height="14" viewBox="0 0 14 14" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <rect x="0" y="5" width="4" height="4" fill="#000"/>
                       <rect x="5" y="0" width="4" height="4" fill="#000"/>
                       <rect x="5" y="5" width="4" height="9" fill="#000"/>
@@ -1610,7 +1648,7 @@ function MenuBar({ currentStep, sectionRefs }) {
                   </a>
                   <a href="mailto:vanxuong_hong@intuit.com"
                     style={{ ...linkStyle, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <svg width="14" height="12" viewBox="0 0 14 12" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="14" height="12" viewBox="0 0 14 12" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <rect x="0" y="0" width="14" height="12" fill="#fff" stroke="#000" strokeWidth="1"/>
                       <polygon points="0,0 7,7 14,0" fill="#000"/>
                       <rect x="0" y="8" width="5" height="4" fill="#000"/>
@@ -1637,11 +1675,13 @@ function MenuBar({ currentStep, sectionRefs }) {
 
         {/* Left: logo + dropdown */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, position: 'relative' }}>
-          <button onClick={() => setAboutOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>
-            <AppleIcon />
+          <button onClick={() => setAboutOpen(true)} aria-label="About this guide" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '10px', display: 'flex', alignItems: 'center' }}>
+            <AppleIcon aria-hidden="true" />
           </button>
           <button
             onClick={() => setMenuOpen(o => !o)}
+            aria-expanded={menuOpen}
+            aria-haspopup="true"
             style={{
               fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 15,
               background: menuOpen ? '#000' : 'transparent',
@@ -1659,6 +1699,7 @@ function MenuBar({ currentStep, sectionRefs }) {
             }}>
               {labels.map((label, i) => (
                 <button key={i} onClick={() => scrollTo(i)}
+                  aria-current={currentStep === i ? 'step' : undefined}
                   style={{
                     display: 'block', width: '100%', textAlign: 'left',
                     fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 14,
@@ -1686,12 +1727,12 @@ function MenuBar({ currentStep, sectionRefs }) {
           >
             <span style={{ fontSize: 11 }}>?</span> Help
           </button>
-          <button onClick={openSearch} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>
-            <SearchIcon />
+          <button onClick={openSearch} aria-label="Search this guide" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '10px', display: 'flex', alignItems: 'center' }}>
+            <SearchIcon aria-hidden="true" />
           </button>
-          <BatteryIcon />
-          <WifiIcon />
-          <BluetoothIcon />
+          <span aria-hidden="true"><BatteryIcon /></span>
+          <span aria-hidden="true"><WifiIcon /></span>
+          <span aria-hidden="true"><BluetoothIcon /></span>
           <span style={{ fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 13, marginLeft: 4 }}>
             {time}
           </span>
@@ -1738,12 +1779,12 @@ function MacWindow({ title, icon, hero, children, sectionIndex = 0 }) {
         display: 'flex', alignItems: 'center',
         padding: '0 6px', gap: 6,
       }}>
-        <div style={{ width: 12, height: 12, border: '1px solid #fff', background: '#fff', flexShrink: 0 }} />
-        <div style={{ flex: 1, height: 6, backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)' }} />
+        <div aria-hidden="true" style={{ width: 12, height: 12, border: '1px solid #fff', background: '#fff', flexShrink: 0 }} />
+        <div aria-hidden="true" style={{ flex: 1, height: 6, backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)' }} />
         <span style={{ fontFamily: '"Chicago","ChicagoFLF",monospace', fontSize: 12, whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: 6 }}>
           {icon} {title}
         </span>
-        <div style={{ flex: 1, height: 6, backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)' }} />
+        <div aria-hidden="true" style={{ flex: 1, height: 6, backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)' }} />
       </div>
       {/* Hero image */}
       {hero}
@@ -1795,6 +1836,8 @@ function CodeSnippet({ code, label }) {
         <button
           className="copy-btn"
           onClick={handleCopy}
+          aria-label={copied ? 'Copied to clipboard' : 'Copy code to clipboard'}
+          aria-live="polite"
           style={{
             position: 'absolute', top: 6, right: 6,
             fontFamily: '"Geneva","Charcoal",monospace', fontSize: 11,
@@ -1932,7 +1975,7 @@ function YOLOSection({ sectionRef }) {
         </TypeIn>
         <div style={{ border: '2px solid #000', background: '#fff', padding: 16, marginTop: 20, display: 'flex', gap: 14, alignItems: 'flex-start' }}>
           <div style={{ flexShrink: 0, marginTop: 2 }}>
-            <svg width="28" height="28" viewBox="0 0 28 28" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+            <svg width="28" height="28" viewBox="0 0 28 28" shapeRendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <polygon points="14,2 26,24 2,24" fill="#fff" stroke="#000" strokeWidth="2"/>
               <rect x="12" y="9" width="4" height="8" fill="#000"/>
               <rect x="12" y="19" width="4" height="3" fill="#000"/>
@@ -2006,6 +2049,7 @@ function App() {
   return (
     <SplashDoneContext.Provider value={splashDone}>
       <style>{globalStyles}</style>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       {/* Fixed dither layer — never scrolls, no repaint flicker */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: -1, pointerEvents: 'none',
@@ -2013,10 +2057,11 @@ function App() {
         backgroundSize: '2px 2px',
         opacity: 0.22,
       }} />
-      <Splash visible={showSplash} />
+      <Splash visible={showSplash} aria-hidden="true" />
       <MenuBar currentStep={currentStep} sectionRefs={sectionRefs} />
       <div style={{ background: 'transparent', minHeight: '100vh' }}>
-        <main style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px', paddingTop: 68 }}>
+        <main id="main-content" style={{ maxWidth: 780, margin: '0 auto', padding: '40px 24px', paddingTop: 68 }}>
+          <h1 className="visually-hidden">Claude Code Setup Guide</h1>
           <PrerequisitesSection sectionRef={sectionRefs[0]} />
           <InstallSection sectionRef={sectionRefs[1]} />
           <CursorSection sectionRef={sectionRefs[2]} />
