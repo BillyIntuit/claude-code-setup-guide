@@ -924,10 +924,14 @@ const TOPICS = [
   {
     id: 'figma',
     tags: ['figma','mcp','figma mcp','mcp server','figma server','connect figma','figma error','mcp error','mcp not working','mcp list'],
-    intro: 'Let\'s set up the Figma MCP server. Run:\n```bash\nclaude mcp add --scope user --transport http figma https://mcp.figma.com/mcp\n```\nLet me know when it finishes — did you see any output?',
+    intro: 'Let\'s set up the Figma MCP. First you\'ll need a Figma Personal Access Token:\n\n1. In Figma, click your avatar (top-left) → **Settings → Security**\n2. Scroll to "Personal access tokens" → **Generate new token**\n3. Give it a name, set read-only access for Files & Dev Resources, and copy the token\n\nGot your token? Let me know and we\'ll add the MCP server next.',
     flow: [
       {
-        match: [/added|done|success|ok|yes|finish|added|no output|nothing|ran it/i],
+        match: [/yes|got it|have it|token|copied|ready|ok|done|yep/i],
+        reply: 'Great! Now run this to add the MCP server:\n```bash\nclaude mcp add --scope user --transport http figma https://mcp.figma.com/mcp\n```\nLet me know when it finishes.',
+      },
+      {
+        match: [/added|done|success|finish|no output|nothing|ran it/i],
         reply: 'Now verify it was added:\n```bash\nclaude mcp list\n```\nYou should see `figma` in the list. Is it there?',
       },
       {
@@ -2006,17 +2010,28 @@ function FigmaMCPSection({ sectionRef }) {
         <TypeIn preview="MCP stands for Model Context Protocol — but all you need to know is: it lets Claude look at your Figma designs and understand them. It's like giving Claude a pair of eyes for your design files." tag="p" style={bodyStyle}>
           MCP stands for "Model Context Protocol" — but all you need to know is: it lets Claude look at your Figma designs and understand them. It's like giving Claude a pair of eyes for your design files.
         </TypeIn>
-        <TypeIn preview="Add the Figma MCP Server" tag="h2" style={h2Style}>Add the Figma MCP Server</TypeIn>
+        <TypeIn preview="Step 1 — Get Your Figma API Token" tag="h2" style={h2Style}>Step 1 — Get Your Figma API Token</TypeIn>
+        <TypeIn preview="You'll need a personal access token from Figma so Claude can read your designs." tag="p" style={bodyStyle}>
+          You'll need a personal access token from Figma so Claude can read your designs.
+        </TypeIn>
+        <ol style={{ ...bodyStyle, paddingLeft: 20, margin: '8px 0 12px' }}>
+          <li style={{ marginBottom: 6 }}>Open <strong>Figma</strong> in your browser and click your profile avatar (top-left)</li>
+          <li style={{ marginBottom: 6 }}>Go to <strong>Settings → Security</strong></li>
+          <li style={{ marginBottom: 6 }}>Scroll to <strong>"Personal access tokens"</strong> and click <strong>Generate new token</strong></li>
+          <li style={{ marginBottom: 6 }}>Give it a name (e.g. "Claude Code"), set expiration, and enable <strong>Read-only</strong> access for Files and Dev Resources</li>
+          <li>Copy the token — you won't be able to see it again</li>
+        </ol>
+        <TypeIn preview="Step 2 — Add the Figma MCP Server" tag="h2" style={h2Style}>Step 2 — Add the Figma MCP Server</TypeIn>
         <CodeSnippet code={SNIPPETS.figmaAdd} label="Add Figma MCP (recommended)" />
-        <TypeIn preview="Make It Available in Every Project" tag="h2" style={h2Style}>Make It Available in Every Project</TypeIn>
+        <TypeIn preview="Step 3 — Make It Available in Every Project" tag="h2" style={h2Style}>Step 3 — Make It Available in Every Project</TypeIn>
         <CodeSnippet code={SNIPPETS.figmaScope} label="Make it available in ALL projects (optional)" />
         <TypeIn preview="This saves the connection so you don't have to set it up again in every project folder." tag="p" style={bodyStyle}>
           This saves the connection so you don't have to set it up again in every project folder.
         </TypeIn>
-        <TypeIn preview="Check the Connection" tag="h2" style={h2Style}>Check the Connection</TypeIn>
+        <TypeIn preview="Step 4 — Check the Connection" tag="h2" style={h2Style}>Step 4 — Check the Connection</TypeIn>
         <CodeSnippet code={SNIPPETS.figmaList} label="Verify the connection" />
         <TypeIn preview="After running that command, restart Claude Code. Then type /mcp inside Claude Code, find figma, and click Authenticate. A browser window pops up — click Allow Access. That's it!" tag="p" style={bodyStyle}>
-          After running that command, restart Claude Code. Then type <code style={inlineCode}>/mcp</code> inside Claude Code, find "figma", and click "Authenticate". A browser window pops up — click "Allow Access". That's it!
+          After running that command, restart Claude Code. Then type <code style={inlineCode}>/mcp</code> inside Claude Code, find "figma", and click "Authenticate". A browser window pops up — paste in your personal access token and click "Allow Access". That's it!
         </TypeIn>
         <TypeIn preview="How to use it: Copy a link to any frame in Figma and paste it into Claude Code with a prompt like: Build this design as a React component: [paste Figma link here]" tag="p" style={{ ...bodyStyle, marginTop: 16, padding: '12px 16px', border: '1px solid #000' }}>
           <strong style={{ fontFamily: '"Chicago","ChicagoFLF",monospace' }}>How to use it:</strong> Copy a link to any frame in Figma and paste it into Claude Code with a prompt like: <em>"Build this design as a React component: [paste Figma link here]"</em>
